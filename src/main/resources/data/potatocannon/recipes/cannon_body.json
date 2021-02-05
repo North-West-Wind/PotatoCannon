@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#OO",
+    " PT",
+    "#OO"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:leather"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "P": {
+      "item": "minecraft:potato"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "potatocannon:cannon_body",
+    "count": 1
+  }
+}

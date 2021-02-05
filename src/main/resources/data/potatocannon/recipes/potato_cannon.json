@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "SPI",
+    " S "
+  ],
+  "key": {
+    "#": {
+      "item": "potatocannon:cannon_tube"
+    },
+    "S": {
+      "item": "potatocannon:cannon_handle"
+    },
+    "P": {
+      "item": "minecraft:potato"
+    },
+    "I": {
+      "item": "potatocannon:cannon_body"
+    }
+  },
+  "result": {
+    "item": "potatocannon:potato_cannon",
+    "count": 1
+  }
+}

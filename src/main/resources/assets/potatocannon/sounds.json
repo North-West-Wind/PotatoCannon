@@ -1,0 +1,16 @@
+{
+  "potato_cannon_firing": {
+    "category": "player",
+    "subtitle": "subtitles.entity.potato.firing",
+    "sounds": [
+      "potatocannon:potato_cannon_firing"
+    ]
+  },
+  "potato_cannon_explosion": {
+  "category": "block",
+  "subtitle": "subtitles.entity.potato.explosion",
+  "sounds": [
+    "potatocannon:potato_cannon_explosion"
+  ]
+}
+}

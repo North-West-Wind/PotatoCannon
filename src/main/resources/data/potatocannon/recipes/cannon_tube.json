@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nnn",
+    "   ",
+    "nnn"
+  ],
+  "key": {
+    "n": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "potatocannon:cannon_tube",
+    "count": 1
+  }
+}

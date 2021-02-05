@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+
+[[mods]]
+modId="potatocannon"
+version="1.0.0"
+displayName="Potato Cannon"
+logoFile="potatocannon.png"
+credits="Thanks to Surviv.io for this idea"
+authors="NorthWestWind"
+description='''
+This mod adds an overpowered item: Potato Cannon!
+
+The Potato Cannon is based off the one from Surviv.io's Potato Mode.
+(Not the one originates from WWII, although it is still pretty cool)
+
+Just get potatoes and you can defeat anything!
+'''
+[[dependencies.potatocannon]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.potatocannon]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
