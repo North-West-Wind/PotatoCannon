@@ -9,6 +9,8 @@ displayName="Potato Cannon"
 logoFile="potatocannon.png"
 credits="Thanks to Surviv.io for this idea"
 authors="NorthWestWind"
+updateJSONURL="https://raw.githubusercontent.com/North-West-Wind/PotatoCannon/main/update.json"
+displayURL="https://github.com/North-West-Wind/PotatoCannon"
 description='''
 This mod adds an overpowered item: Potato Cannon!
 
