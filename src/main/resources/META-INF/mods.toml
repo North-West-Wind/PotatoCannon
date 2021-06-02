@@ -4,7 +4,7 @@ license="All rights reserved"
 
 [[mods]]
 modId="potatocannon"
-version="1.0.0"
+version="1.0.1"
 displayName="Potato Cannon"
 logoFile="potatocannon.png"
 credits="Thanks to Surviv.io for this idea"
