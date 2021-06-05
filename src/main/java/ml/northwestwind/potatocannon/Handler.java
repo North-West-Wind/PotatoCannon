@@ -5,18 +5,17 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import ml.northwestwind.potatocannon.items.PotatoCannonItem;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.LogManager;
 
-@Mod.EventBusSubscriber(modid = PotatoCannon.MOD_ID)
+@Mod.EventBusSubscriber(modid = PotatoCannon.MOD_ID, value = Dist.CLIENT)
 public class Handler {
     @SubscribeEvent
     public static void preRender(RenderPlayerEvent.Pre event) {
