@@ -1,13 +1,13 @@
 package ml.northwestwind.potatocannon.items;
 
 import ml.northwestwind.potatocannon.PotatoCannon;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -16,13 +16,13 @@ import java.util.List;
 
 public class CannonComponentItem extends Item {
     public CannonComponentItem(String name) {
-        super(new Properties().group(PotatoCannon.PotatoCannonItemGroup.INSTANCE).rarity(Rarity.RARE));
+        super(new Properties().tab(PotatoCannon.PotatoCannonItemGroup.INSTANCE).rarity(Rarity.RARE));
         setRegistryName(PotatoCannon.MOD_ID, name);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("tooltip.component"));
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(new TranslatableComponent("tooltip.component"));
     }
 }

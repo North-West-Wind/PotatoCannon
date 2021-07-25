@@ -1,23 +1,24 @@
 package ml.northwestwind.potatocannon;
 
-import ml.northwestwind.potatocannon.entities.PotatoEntity;
+import ml.northwestwind.potatocannon.entities.ThrownPotato;
 import ml.northwestwind.potatocannon.items.CannonComponentItem;
 import ml.northwestwind.potatocannon.items.PotatoCannonItem;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nonnull;
 
@@ -31,12 +32,12 @@ public class PotatoCannon {
     public static final Item CANNON_BODY = new CannonComponentItem("cannon_body");
     public static final Item CANNON_HANDLE = new CannonComponentItem("cannon_handle");
 
-    public static final EntityType<PotatoEntity> POTATO_ENTITY_TYPE = (EntityType<PotatoEntity>) EntityType.Builder.<PotatoEntity>create(PotatoEntity::new, EntityClassification.MISC).size(0.25f, 0.25f).build("potato_entity").setRegistryName(MOD_ID, "potato_entity");
+    public static final EntityType<ThrownPotato> POTATO_ENTITY_TYPE = (EntityType<ThrownPotato>) EntityType.Builder.<ThrownPotato>of(ThrownPotato::new, MobCategory.MISC).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10).build("potato").setRegistryName(MOD_ID, "potato");
     public static final SoundEvent POTATO_FIRING = new SoundEvent(new ResourceLocation(MOD_ID, "potato_cannon_firing"));
     public static final SoundEvent POTATO_EXPLOSION = new SoundEvent(new ResourceLocation(MOD_ID, "potato_cannon_explosion"));
 
-    public static class PotatoCannonItemGroup extends ItemGroup {
-        public static final ItemGroup INSTANCE = new PotatoCannonItemGroup(ItemGroup.GROUPS.length, "potatocannon");
+    public static class PotatoCannonItemGroup extends CreativeModeTab {
+        public static final CreativeModeTab INSTANCE = new PotatoCannonItemGroup(CreativeModeTab.TABS.length, "potatocannon");
 
         private PotatoCannonItemGroup(int index, String label) {
             super(index, label);
@@ -44,7 +45,7 @@ public class PotatoCannon {
 
         @Nonnull
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(POTATO_CANNON);
         }
     }
@@ -66,7 +67,8 @@ public class PotatoCannon {
     public static class ClientEvents {
         @SubscribeEvent
         public static void clientSetup(final FMLClientSetupEvent event) {
-            RenderingRegistry.registerEntityRenderingHandler(POTATO_ENTITY_TYPE, renderManager -> new SpriteRenderer<>(renderManager, event.getMinecraftSupplier().get().getItemRenderer()));
+            EntityRenderers.register(POTATO_ENTITY_TYPE, ThrownItemRenderer::new);
+            LogManager.getLogger().info("Registered Renderer for POTATO");
         }
     }
 }

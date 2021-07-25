@@ -1,11 +1,16 @@
 {
   "homepage": "https://github.com/North-West-Wind/PotatoCannon",
+  "1.17.1": {
+    "2.0.0": "1.17.1 Release"
+  },
   "1.16.5": {
     "1.0.0": "Release of Potato Cannon",
     "1.0.1": "Fixed server crashing",
     "1.0.2": "Fixed server crashing (again)"
   },
   "promos": {
+    "1.17.1-latest": "2.0.0",
+    "1.17.1-recommended": "2.0.0",
     "1.16.5-latest": "1.0.2",
     "1.16.5-recommended": "1.0.2"
   }

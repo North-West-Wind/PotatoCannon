@@ -4,7 +4,7 @@ license="All rights reserved"
 
 [[mods]]
 modId="potatocannon"
-version="1.0.2"
+version="2.0.0"
 displayName="Potato Cannon"
 logoFile="potatocannon.png"
 credits="Thanks to Surviv.io for this idea"
@@ -22,12 +22,12 @@ Just get potatoes and you can defeat anything!
 [[dependencies.potatocannon]]
     modId="forge"
     mandatory=true
-    versionRange="[36,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.potatocannon]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.17.1,)"
     ordering="NONE"
     side="BOTH"

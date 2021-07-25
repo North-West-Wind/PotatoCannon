@@ -1,15 +1,15 @@
 package ml.northwestwind.potatocannon;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.northwestwind.potatocannon.items.PotatoCannonItem;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,49 +19,49 @@ import net.minecraftforge.fml.common.Mod;
 public class Handler {
     @SubscribeEvent
     public static void preRender(RenderPlayerEvent.Pre event) {
-        PlayerEntity player = event.getPlayer();
+        Player player = event.getPlayer();
         PlayerRenderer render = event.getRenderer();
-        PlayerModel<AbstractClientPlayerEntity> model = render.getEntityModel();
-        if(player != null && player.getHeldItemMainhand().getItem() instanceof PotatoCannonItem){
-            model.bipedLeftArm.showModel=false;
-            model.bipedRightArm.showModel=false;
+        PlayerModel<AbstractClientPlayer> model = render.getModel();
+        if(player != null && player.getMainHandItem().getItem() instanceof PotatoCannonItem){
+            model.leftArm.visible = false;
+            model.rightArm.visible = false;
         }
     }
 
     @SubscribeEvent
     public static void postRender(final RenderPlayerEvent.Post event) {
-        PlayerEntity player = event.getPlayer();
-        ItemStack stack = player.getHeldItemMainhand();
+        Player player = event.getPlayer();
+        ItemStack stack = player.getMainHandItem();
         if (!(stack.getItem() instanceof PotatoCannonItem)) return;
-        PlayerModel<AbstractClientPlayerEntity> model = event.getRenderer().getEntityModel();
+        PlayerModel<AbstractClientPlayer> model = event.getRenderer().getModel();
         renderAiming(model, player, event);
     }
 
-    private static void renderAiming(PlayerModel<AbstractClientPlayerEntity> model, PlayerEntity player, RenderPlayerEvent event)
+    private static void renderAiming(PlayerModel<AbstractClientPlayer> model, Player player, RenderPlayerEvent event)
     {
-        MatrixStack matrix = event.getMatrixStack();
-        IVertexBuilder buffer = event.getBuffers().getBuffer(model.getRenderType(((AbstractClientPlayerEntity) player).getLocationSkin()));
+        PoseStack matrix = event.getMatrixStack();
+        VertexConsumer buffer = event.getBuffers().getBuffer(model.renderType(((AbstractClientPlayer) player).getSkinTextureLocation()));
         int light = event.getLight();
         int texture = OverlayTexture.NO_OVERLAY;
 
-        model.bipedLeftArm.rotationPointX = -MathHelper.cos((float) Math.toRadians(player.renderYawOffset)) * -5.5F;
-        model.bipedLeftArm.rotationPointY = player.isCrouching() ? 17.5F : 20.5F;
-        model.bipedLeftArm.rotationPointZ = -MathHelper.sin((float) Math.toRadians(player.renderYawOffset)) * -5.5F;
-        model.bipedLeftArm.rotateAngleX = -1.7F - (model.bipedLeftArm.rotateAngleX + (float) (Math.PI / 2.0f))*2.0F;
-        model.bipedLeftArm.rotateAngleY =  (float) Math.toRadians(player.renderYawOffset) + (float) Math.toRadians(60);
-        model.bipedLeftArm.rotateAngleZ = (float) -Math.PI + model.bipedLeftArm.rotateAngleZ;
+        model.leftArm.x = -Mth.cos((float) Math.toRadians(player.xOld)) * -5.5F;
+        model.leftArm.y = player.isCrouching() ? 17.5F : 20.5F;
+        model.leftArm.z = -Mth.sin((float) Math.toRadians(player.xOld)) * -5.5F;
+        model.leftArm.xRot = -1.7F - (model.leftArm.xRot + (float) (Math.PI / 2.0f))*2.0F;
+        model.leftArm.yRot =  (float) Math.toRadians(player.xOld) + (float) Math.toRadians(60);
+        model.leftArm.zRot = (float) -Math.PI + model.leftArm.zRot;
 
-        model.bipedRightArm.rotationPointZ = -MathHelper.sin((float) Math.toRadians(player.renderYawOffset)) * 5.5F;
-        model.bipedRightArm.rotationPointY = player.isCrouching() ? 17.5F : 20.5F;
-        model.bipedRightArm.rotationPointX = -MathHelper.cos((float) Math.toRadians(player.renderYawOffset)) * 5.5F;
-        model.bipedRightArm.rotateAngleX = -1.7F - (model.bipedLeftArm.rotateAngleX + (float) (Math.PI / 2.0f));
-        model.bipedRightArm.rotateAngleY = (float) Math.toRadians(player.renderYawOffset);
-        model.bipedRightArm.rotateAngleZ = (float) -Math.PI + model.bipedRightArm.rotateAngleZ;
+        model.rightArm.z = -Mth.sin((float) Math.toRadians(player.xOld)) * 5.5F;
+        model.rightArm.y = player.isCrouching() ? 17.5F : 20.5F;
+        model.rightArm.x = -Mth.cos((float) Math.toRadians(player.xOld)) * 5.5F;
+        model.rightArm.xRot = -1.7F - (model.leftArm.xRot + (float) (Math.PI / 2.0f));
+        model.rightArm.yRot = (float) Math.toRadians(player.xOld);
+        model.rightArm.zRot = (float) -Math.PI + model.rightArm.zRot;
 
-        model.bipedRightArm.showModel=true;
-        model.bipedLeftArm.showModel=true;
+        model.rightArm.visible=true;
+        model.leftArm.visible=true;
 
-        model.bipedRightArm.render(matrix, buffer, light, texture);
-        model.bipedLeftArm.render(matrix, buffer, light, texture);
+        model.rightArm.render(matrix, buffer, light, texture);
+        model.leftArm.render(matrix, buffer, light, texture);
     }
 }

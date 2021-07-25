@@ -1,74 +1,71 @@
 package ml.northwestwind.potatocannon.items;
 
 import ml.northwestwind.potatocannon.PotatoCannon;
-import ml.northwestwind.potatocannon.entities.PotatoEntity;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import ml.northwestwind.potatocannon.entities.ThrownPotato;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 public class PotatoCannonItem extends Item {
+    private static final Random random = new Random();
+
     public PotatoCannonItem() {
-        super(new Properties().maxStackSize(1).group(PotatoCannon.PotatoCannonItemGroup.INSTANCE).rarity(Rarity.EPIC));
+        super(new Properties().stacksTo(1).tab(PotatoCannon.PotatoCannonItemGroup.INSTANCE).rarity(Rarity.EPIC));
         setRegistryName(PotatoCannon.MOD_ID, "potato_cannon");
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("tooltip.potatocannon"));
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(new TranslatableComponent("tooltip.potatocannon"));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        if (!handIn.equals(Hand.MAIN_HAND)) return super.onItemRightClick(worldIn, playerIn, handIn);
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+        if (!handIn.equals(InteractionHand.MAIN_HAND)) return super.use(worldIn, playerIn, handIn);
         ItemStack stack = getPotatoes(playerIn);
-        if (stack.isEmpty()) return super.onItemRightClick(worldIn, playerIn, handIn);
+        if (stack.isEmpty()) return super.use(worldIn, playerIn, handIn);
         shootPotato(worldIn, playerIn, stack);
-        playerIn.getCooldownTracker().setCooldown(this, 24);
-        return ActionResult.resultConsume(playerIn.getHeldItemMainhand());
+        playerIn.getCooldowns().addCooldown(this, 24);
+        return InteractionResultHolder.consume(playerIn.getMainHandItem());
     }
 
-    private void shootPotato(World world, PlayerEntity shooter, ItemStack stack) {
-        if (!world.isRemote) {
-            PotatoEntity potato = new PotatoEntity(shooter, world);
-            potato.setShooter(shooter);
+    private void shootPotato(Level world, Player shooter, ItemStack stack) {
+        if (!world.isClientSide) {
+            ThrownPotato potato = new ThrownPotato(shooter, world);
+            potato.setOwner(shooter);
             potato.setItem(stack);
 
-            potato.func_234612_a_(shooter, shooter.rotationPitch, shooter.rotationYaw, 0.0F, 2, 0.0F);
-            world.addEntity(potato);
+            potato.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, 2, 0.0F);
+            world.addFreshEntity(potato);
         }
-        if (!shooter.abilities.isCreativeMode) {
-            stack.shrink(1);
-        }
-        world.playSound(null, shooter.getPosX(), shooter.getPosY(), shooter.getPosZ(), PotatoCannon.POTATO_FIRING, SoundCategory.PLAYERS, 1.0F, getRandomSoundPitch());
+        if (!shooter.isCreative()) stack.shrink(1);
+        world.playSound(null, shooter.blockPosition(), PotatoCannon.POTATO_FIRING, SoundSource.PLAYERS, 1.0F, getRandomSoundPitch());
     }
 
     private static float getRandomSoundPitch() {
         return 1 / (random.nextFloat() + 0.8f);
     }
 
-    private static ItemStack getPotatoes(PlayerEntity player) {
-        for (ItemStack stack : player.inventory.mainInventory) {
+    private static ItemStack getPotatoes(Player player) {
+        for (ItemStack stack : player.getInventory().items) {
             if (stack.getItem().equals(Items.POTATO)) return stack;
         }
-        for (ItemStack stack : player.inventory.offHandInventory) {
+        for (ItemStack stack : player.getInventory().offhand) {
             if (stack.getItem().equals(Items.POTATO)) return stack;
         }
-        for (ItemStack stack : player.inventory.armorInventory) {
+        for (ItemStack stack : player.getInventory().armor) {
             if (stack.getItem().equals(Items.POTATO)) return stack;
         }
         return ItemStack.EMPTY;
