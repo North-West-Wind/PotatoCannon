@@ -1,12 +1,12 @@
 {
-  "tooltip.potatocannon": "\u00A77\u00A7oLaunch potatoes at high speed and cause explosions.",
-  "tooltip.component": "\u00A77\u00A7oUse to craft the Potato Cannon",
+  "tooltip.potatocannon": "\u00A77\u00A7oLaunches potatoes at high speed and cause explosions.",
+  "tooltip.component": "\u00A77\u00A7oUsed for crafting the Potato Cannon",
 
   "itemGroup.potatocannon": "Potato Cannon",
   "item.potatocannon.potato_cannon": "Potato Cannon",
   "item.potatocannon.cannon_tube": "Cannon Tube",
   "item.potatocannon.cannon_body": "Cannon Body",
-  "item.potatocannon.cannon_handle": "Cannon Handle",
+  "item.potatocannon.cannon_handle": "Cannon Grip",
 
   "subtitles.entity.potato.firing": "Potato Fired",
   "subtitles.entity.potato.explosion": "Potato Exploded",

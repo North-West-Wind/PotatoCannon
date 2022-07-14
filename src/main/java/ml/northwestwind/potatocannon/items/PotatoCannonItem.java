@@ -22,7 +22,6 @@ public class PotatoCannonItem extends Item {
 
     public PotatoCannonItem() {
         super(new Properties().stacksTo(1).tab(PotatoCannon.PotatoCannonItemGroup.INSTANCE).rarity(Rarity.EPIC));
-        setRegistryName(PotatoCannon.MOD_ID, "potato_cannon");
     }
 
     @OnlyIn(Dist.CLIENT)

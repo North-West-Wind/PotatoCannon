@@ -15,9 +15,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CannonComponentItem extends Item {
-    public CannonComponentItem(String name) {
+    public CannonComponentItem() {
         super(new Properties().tab(PotatoCannon.PotatoCannonItemGroup.INSTANCE).rarity(Rarity.RARE));
-        setRegistryName(PotatoCannon.MOD_ID, name);
     }
 
     @OnlyIn(Dist.CLIENT)
