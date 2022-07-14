@@ -2,7 +2,8 @@ package ml.northwestwind.potatocannon.items;
 
 import ml.northwestwind.potatocannon.PotatoCannon;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -22,6 +23,6 @@ public class CannonComponentItem extends Item {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(new TranslatableComponent("tooltip.component"));
+        tooltip.add(MutableComponent.create(new TranslatableContents("tooltip.component")));
     }
 }

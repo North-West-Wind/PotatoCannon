@@ -31,6 +31,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class PotatoExplosion extends Explosion {
+    private static final Random RNG = new Random();
     private UUID shooter;
 
     public PotatoExplosion(Level world, @Nullable Entity exploder, Vec3 pos, @Nullable Entity shooter) {
@@ -141,7 +142,7 @@ public class PotatoExplosion extends Explosion {
 
         if (flag) {
             ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList<>();
-            Collections.shuffle(this.toBlow, this.level.random);
+            Collections.shuffle(this.toBlow, RNG);
 
             for(BlockPos blockpos : this.toBlow) {
                 BlockState blockstate = this.level.getBlockState(blockpos);

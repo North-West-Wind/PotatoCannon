@@ -3,7 +3,8 @@ package ml.northwestwind.potatocannon.items;
 import ml.northwestwind.potatocannon.PotatoCannon;
 import ml.northwestwind.potatocannon.entities.ThrownPotato;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -27,7 +28,7 @@ public class PotatoCannonItem extends Item {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(new TranslatableComponent("tooltip.potatocannon"));
+        tooltip.add(MutableComponent.create(new TranslatableContents("tooltip.potatocannon")));
     }
 
     @Override
